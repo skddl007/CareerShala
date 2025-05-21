@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CareerShala - Alohomora Foundation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#FF6B35",
+              secondary: "#2EC4B6",
+              accent1: "#FFD93D",
+              accent2: "#6C63FF",
+              accent3: "#4CAF50",
+              accent4: "#9C27B0",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Hind', 'Poppins', sans-serif;
+      }
+      .hero-section {
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9) 40%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0.4) 80%, rgba(255, 255, 255, 0) 100%), url('https://readdy.ai/api/search-image?query=Indian%20students%20in%20a%20classroom%20setting%2C%20diverse%20group%20of%20young%20students%20engaged%20in%20career%20guidance%20activities%2C%20bright%20and%20modern%20educational%20environment%2C%20natural%20lighting%2C%20soft%20colors%2C%20inspiring%20atmosphere%2C%20professional%20photography&width=1200&height=600&seq=1&orientation=landscape');
+      background-size: cover;
+      background-position: center right;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      }
+      .counter-value {
+      counter-reset: count 0;
+      animation: count-up 2s forwards;
+      }
+      @keyframes count-up {
+      from { content: "0"; }
+      to { content: attr(data-count); }
+      }
+      .language-toggle input:checked + .toggle-slider {
+      background-color: #FF6B35;
+      }
+      .language-toggle input:checked + .toggle-slider:before {
+      transform: translateX(1.5rem);
+      }
+      @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+      }
+      @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+      }
+      @keyframes fadeInUp {
+      from {
+      opacity: 0;
+      transform: translateY(20px);
+      }
+      to {
+      opacity: 1;
+      transform: translateY(0);
+      }
+      }
+      .state-card {
+      animation: fadeInUp 0.6s ease-out forwards;
+      opacity: 0;
+      }
+      .state-card:nth-child(1) { animation-delay: 0.2s; }
+      .state-card:nth-child(2) { animation-delay: 0.4s; }
+      .state-card:nth-child(3) { animation-delay: 0.6s; }
+      .float-animation {
+      animation: float 3s ease-in-out infinite;
+      }
+      .pulse-animation {
+      animation: pulse 2s ease-in-out infinite;
+      }
+      .state-map-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      }
+      .state-marker {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color: #FF6B35;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      }
+      .state-marker:hover {
+      transform: translate(-50%, -50%) scale(1.5);
+      box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+      }
+      .state-marker.active {
+      background-color: #2EC4B6;
+      box-shadow: 0 0 0 4px rgba(46, 196, 182, 0.3);
+      }
+      .gradient-bg {
+      background: linear-gradient(135deg, #FF6B35 0%, #2EC4B6 100%);
+      }
+      /* Add card hover effect */
+      .card-hover-effect {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .card-hover-effect::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        border-radius: inherit;
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+      
+      .card-hover-effect:hover::before {
+        border-color: #3B82F6;
+        animation: borderAnimation 1.5s linear infinite;
+      }
+      
+      @keyframes borderAnimation {
+        0% { clip-path: inset(0 0 95% 0); }
+        25% { clip-path: inset(0 95% 0 0); }
+        50% { clip-path: inset(95% 0 0 0); }
+        75% { clip-path: inset(0 0 0 95%); }
+        100% { clip-path: inset(0 0 95% 0); }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+      <div
+        class="container mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <div class="flex items-center">
+          <a href="#" class="flex items-center">
+            <img
+              src="{{ url_for('static', filename='Alohomora.jpg') }}"
+              alt="Alohomora Logo"
+              class="h-12 w-auto object-contain"
+            />
+          </a>
+        </div>
+        <nav class="hidden md:flex items-center space-x-8">
+          <a
+            href="#"
+            data-translate="home"
+            class="text-gray-900 font-medium hover:text-primary transition-colors"
+            >होम</a
+          >
+          <a
+            href="#"
+            data-translate="sectors"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >सेक्टर</a
+          >
+          <a
+            href="#"
+            data-translate="about"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >हमारे बारे में</a
+          >
+          <a
+            href="#"
+            data-translate="contact"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >संपर्क</a
+          >
+        </nav>
+        <div class="flex items-center space-x-4">
+          <div class="language-toggle relative inline-flex items-center">
+            <span id="en-label" class="mr-2 text-sm font-medium">EN</span>
+            <label class="relative inline-block w-12 h-6">
+              <input
+                type="checkbox"
+                id="language-toggle"
+                class="opacity-0 w-0 h-0"
+                checked
+              />
+              <span
+                class="toggle-slider absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 rounded-full before:absolute before:h-5 before:w-5 before:left-0.5 before:bottom-0.5 before:bg-white before:rounded-full before:transition-all"
+              ></span>
+            </label>
+            <span id="hi-label" class="ml-2 text-sm font-medium text-primary"
+              >हिंदी</span
+            >
+          </div>
+          <button
+            class="md:hidden w-10 h-10 flex items-center justify-center text-gray-700"
+          >
+            <i class="ri-menu-line ri-lg"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <!-- Hero Section -->
+    <section
+      class="hero-section w-full py-24 md:py-32 bg-cover bg-center relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-accent2/10 to-primary/10"
+      ></div>
+      <div
+        class="absolute inset-0"
+        style="background: url('https://readdy.ai/api/search-image?query=modern%20futuristic%20educational%20space%20with%20floating%20holographic%20career%20path%20visualizations%2C%20young%20Indian%20students%20interacting%20with%20advanced%20technology%20interfaces%2C%20soft%20ambient%20lighting%20with%20blue%20and%20orange%20accent%20lights%2C%20clean%20minimalist%20architecture%20with%20glass%20walls%2C%20professional%20photography%20with%20cinematic%20lighting%20and%20depth%20of%20field&width=1920&height=1080&seq=8&orientation=landscape') center/cover"
+      ></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-white/95 via-white/90 to-transparent"
+      ></div>
+      <div class="container mx-auto px-4">
+        <div class="relative container mx-auto px-4">
+          <div class="w-full max-w-2xl">
+            <div class="mb-8 transform hover:scale-105 transition-transform">
+              <h1
+                data-translate="hero_title"
+                class="text-5xl md:text-7xl font-bold mb-6 leading-tight bg-gradient-to-r from-primary via-accent2 to-accent1 text-transparent bg-clip-text font-['Baloo_2']"
+              >
+                करियर शाला: आपके सपनों का मार्गदर्शक
+              </h1>
+              <p
+                data-translate="hero_desc"
+                class="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed"
+              >
+                अलोहोमोरा फाउंडेशन द्वारा संचालित करियर शाला, युवाओं को उनके
+                करियर के लक्ष्यों को पहचानने और उन्हें प्राप्त करने के लिए
+                मार्गदर्शन प्रदान करता है।
+              </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button
+                data-translate="start_now"
+                class="bg-gradient-to-r from-primary to-accent2 text-white px-10 py-4 rounded-full font-medium hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 whitespace-nowrap text-lg"
+              >
+                अभी शुरू करें
+              </button>
+              <button
+                data-translate="learn_more"
+                class="bg-white/80 backdrop-blur text-primary border-2 border-primary px-10 py-4 rounded-full font-medium hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 whitespace-nowrap text-lg"
+              >
+                और जानें
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4" data-translate="what_we_do_title">
+            हम क्या करते हैं
+          </h2>
+          <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-translate="what_we_do_desc">
+            भारत के सरकारी स्कूलों में युवाओं के लिए संरचित करियर अन्वेषण और सूचित विकल्प को सक्षम करना!
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div class="relative">
+            <img
+              src="https://readdy.ai/api/search-image?query=professional%20meeting%20between%20Indian%20education%20officials%20and%20NGO%20representatives%2C%20collaborative%20discussion%20in%20modern%20office%20setting%2C%20focused%20on%20career%20guidance%20programs%2C%20clean%20professional%20environment&width=600&height=400&seq=7&orientation=landscape"
+              alt="Collaborative Programs"
+              class="rounded-lg shadow-xl w-full h-full object-cover object-top"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-lg"
+            ></div>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-6" data-translate="collaborative_programs">
+              सहयोगात्मक बड़े पैमाने के कार्यक्रम
+            </h3>
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-government-line ri-lg"></i>
+                </div>
+                <p class="ml-3 text-gray-700" data-translate="delhi_govt">दिल्ली सरकार के साथ साझेदारी</p>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-map-2-line ri-lg"></i>
+                </div>
+                <p class="ml-3 text-gray-700" data-translate="haryana_program">
+                  हरियाणा में जिला-व्यापी करियर सहायता कार्यक्रम
+                </p>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-road-map-line ri-lg"></i>
+                </div>
+                <p class="ml-3 text-gray-700">
+                  उत्तराखंड में व्यापक करियर मार्गदर्शन
+                </p>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-map-pin-line ri-lg"></i>
+                </div>
+                <p class="ml-3 text-gray-700">
+                  मध्य प्रदेश में शैक्षिक सहयोग कार्यक्रम
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- State Selection Section -->
+    <section class="py-20 relative overflow-hidden">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5"
+      ></div>
+      <div class="container mx-auto px-4 relative">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+            data-translate="choose_state"
+          >
+            अपना राज्य चुनें
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed" data-translate="state_subtitle">
+            कक्षा 9-12 के विद्यार्थियों के लिए विशेष करियर मार्गदर्शन कार्यक्रम
+          </p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="relative">
+            <div
+              class="state-map-container rounded-2xl shadow-2xl overflow-hidden pulse-animation"
+            >
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"
+              ></div>
+              <!-- State markers -->
+              <div
+                class="state-marker active"
+                style="top: 28%; left: 45%;"
+                title="दिल्ली"
+              ></div>
+              <div
+                class="state-marker"
+                style="top: 32%; left: 48%;"
+                title="हरियाणा"
+              ></div>
+              <div
+                class="state-marker"
+                style="top: 45%; left: 42%;"
+                title="मध्य प्रदेश"
+              ></div>
+            </div>
+          </div>
+          <div class="space-y-6">
+            <div class="bg-white rounded-2xl shadow-xl p-8 state-card">
+              <h3 class="text-2xl font-bold mb-6 text-gray-900" data-translate="available_states">
+                उपलब्ध राज्य
+              </h3>
+              <div class="space-y-4">
+                <div
+                  class="group p-6 border-2 border-primary/20 rounded-xl hover:border-primary hover:shadow-lg transition-all duration-300 cursor-pointer bg-gradient-to-r hover:from-primary/5 hover:to-transparent"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <div
+                        class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4"
+                      >
+                        <i class="ri-building-2-line ri-xl text-primary"></i>
+                      </div>
+                      <div>
+                        <h4 class="text-xl font-semibold text-gray-900">
+                          दिल्ली
+                        </h4>
+                        <p class="text-gray-600">
+                          100+ स्कूल | 50+ करियर विकल्प
+                        </p>
+                      </div>
+                    </div>
+                    <i
+                      class="ri-arrow-right-line ri-xl text-primary opacity-0 group-hover:opacity-100 transition-opacity"
+                    ></i>
+                  </div>
+                </div>
+                <div
+                  class="group p-6 border-2 border-primary/20 rounded-xl hover:border-primary hover:shadow-lg transition-all duration-300 cursor-pointer bg-gradient-to-r hover:from-primary/5 hover:to-transparent"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <div
+                        class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4"
+                      >
+                        <i class="ri-map-pin-line ri-xl text-primary"></i>
+                      </div>
+                      <div>
+                        <h4 class="text-xl font-semibold text-gray-900">
+                          हरियाणा
+                        </h4>
+                        <p class="text-gray-600">
+                          80+ स्कूल | 45+ करियर विकल्प
+                        </p>
+                      </div>
+                    </div>
+                    <i
+                      class="ri-arrow-right-line ri-xl text-primary opacity-0 group-hover:opacity-100 transition-opacity"
+                    ></i>
+                  </div>
+                </div>
+                <div
+                  class="group p-6 border-2 border-primary/20 rounded-xl hover:border-primary hover:shadow-lg transition-all duration-300 cursor-pointer bg-gradient-to-r hover:from-primary/5 hover:to-transparent"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <div
+                        class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4"
+                      >
+                        <i class="ri-road-map-line ri-xl text-primary"></i>
+                      </div>
+                      <div>
+                        <h4 class="text-xl font-semibold text-gray-900">
+                          मध्य प्रदेश
+                        </h4>
+                        <p class="text-gray-600">
+                          90+ स्कूल | 40+ करियर विकल्प
+                        </p>
+                      </div>
+                    </div>
+                    <i
+                      class="ri-arrow-right-line ri-xl text-primary opacity-0 group-hover:opacity-100 transition-opacity"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-8 text-center">
+                <button
+                  class="bg-primary text-white px-8 py-4 rounded-button text-lg font-medium hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 whitespace-nowrap"
+                  data-translate="start_journey"
+                >
+                  करियर यात्रा शुरू करें
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- About Alohomora Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <img
+              src="https://readdy.ai/api/search-image?query=Indian%20education%20foundation%20mentoring%20session%2C%20diverse%20group%20of%20educators%20and%20students%20collaborating%2C%20professional%20setting%2C%20warm%20lighting%2C%20inspirational%20atmosphere%2C%20clean%20background%2C%20high%20quality%20professional%20photography&width=600&height=500&seq=2&orientation=landscape"
+              alt="Alohomora Foundation"
+              class="rounded-lg shadow-lg object-cover w-full h-full object-top"
+            />
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-6" data-translate="about_title">
+              अलोहोमोरा फाउंडेशन के बारे में
+            </h2>
+            <p class="text-lg text-gray-700 mb-6" data-translate="about_desc">
+              अलोहोमोरा फाउंडेशन एक गैर-लाभकारी संगठन है जो भारत के युवाओं को
+              उनके करियर के लक्ष्यों को प्राप्त करने में मदद करता है। हम विश्वास
+              करते हैं कि हर छात्र में अपने सपनों को साकार करने की क्षमता होती
+              है।
+            </p>
+            <div class="space-y-4 mb-8">
+              <div class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-check-line ri-lg"></i>
+                </div>
+                <p class="ml-3 text-gray-700" data-translate="students_helped">
+                  हमने 50,000+ छात्रों को करियर मार्गदर्शन प्रदान किया है
+                </p>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-check-line ri-lg"></i>
+                </div>
+                <p class="ml-3 text-gray-700">
+                  8+ राज्यों में हमारे कार्यक्रम सफलतापूर्वक चल रहे हैं
+                </p>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-check-line ri-lg"></i>
+                </div>
+                <p class="ml-3 text-gray-700">
+                  200+ स्कूलों और संस्थानों के साथ साझेदारी
+                </p>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-check-line ri-lg"></i>
+                </div>
+                <p class="ml-3 text-gray-700">
+                  1000+ प्रशिक्षित करियर मार्गदर्शक
+                </p>
+              </div>
+            </div>
+            <button
+              class="bg-primary text-white px-8 py-3 rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap"
+              data-translate="know_more"
+            >
+              और जानें
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Program Features -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4" data-translate="features_title">
+            करियर शाला की विशेषताएं
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-translate="features_subtitle">
+            हमारा कार्यक्रम छात्रों को उनके करियर के लक्ष्यों को प्राप्त करने के लिए आवश्यक ज्ञान और कौशल प्रदान करता है
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all card-hover-effect"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6 mx-auto"
+            >
+              <i class="ri-compass-discover-line ri-xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-center mb-3" data-translate="career_discovery">करियर खोज</h3>
+            <p class="text-gray-600 text-center" data-translate="career_discovery_desc">
+              छात्रों को विभिन्न करियर विकल्पों की खोज करने और उनकी रुचियों के अनुसार सही मार्ग चुनने में मदद करता है
+            </p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all card-hover-effect"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6 mx-auto"
+            >
+              <i class="ri-user-star-line ri-xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-center mb-3">
+              व्यक्तिगत मार्गदर्शन
+            </h3>
+            <p class="text-gray-600 text-center">
+              प्रत्येक छात्र को उनकी व्यक्तिगत आवश्यकताओं और लक्ष्यों के अनुसार
+              मार्गदर्शन प्रदान किया जाता है
+            </p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all card-hover-effect"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6 mx-auto"
+            >
+              <i class="ri-book-open-line ri-xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-center mb-3">
+              शिक्षा संसाधन
+            </h3>
+            <p class="text-gray-600 text-center">
+              विभिन्न करियर पाठ्यक्रमों, प्रवेश परीक्षाओं और छात्रवृत्ति के
+              अवसरों के बारे में विस्तृत जानकारी
+            </p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all card-hover-effect"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6 mx-auto"
+            >
+              <i class="ri-group-line ri-xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-center mb-3">
+              समुदाय समर्थन
+            </h3>
+            <p class="text-gray-600 text-center">
+              समान विचारधारा वाले छात्रों और पेशेवरों का एक समुदाय जो एक-दूसरे
+              का समर्थन और प्रेरणा प्रदान करता है
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Why Choose CareerShala -->
+    <section
+      class="py-20 bg-gradient-to-br from-white via-primary/5 to-secondary/5 relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-[url('https://readdy.ai/api/search-image?query=abstract%20geometric%20pattern%20with%20soft%20gradient%20colors%2C%20modern%20minimalist%20design%2C%20subtle%20texture%2C%20professional%20clean%20background&width=1920&height=1080&seq=9&orientation=landscape')] opacity-5"
+      ></div>
+      <div class="container mx-auto px-4 relative">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6"
+            data-translate="why_choose_title"
+          >
+            करियर शाला को क्यों चुनें?
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto" data-translate="why_choose_subtitle">
+            हमारी विशेषताएं जो हमें अलग बनाती हैं
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all card-hover-effect"
+          >
+            <div class="flex items-center mb-6">
+              <div class="text-4xl font-bold text-primary">57%</div>
+              <p class="ml-4 text-gray-700">
+                छात्र अपनी क्षमताओं को पहचान कर उनसे संबंधित करियर की पहचान कर
+                पाते हैं
+              </p>
+            </div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="w-[57%] h-full bg-primary"></div>
+            </div>
+          </div>
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all card-hover-effect"
+          >
+            <div class="flex items-center mb-6">
+              <div class="text-4xl font-bold text-primary">59%</div>
+              <p class="ml-4 text-gray-700">
+                छात्र अपने करियर के बारे में जानने के लिए कार्रवाई कर रहे हैं और
+                प्रोग्राम के बाद भी इस सीखने के प्रति प्रतिबद्ध हैं
+              </p>
+            </div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="w-[59%] h-full bg-primary"></div>
+            </div>
+          </div>
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all card-hover-effect"
+          >
+            <div class="flex items-center mb-6">
+              <div class="text-4xl font-bold text-primary">69%</div>
+              <p class="ml-4 text-gray-700">
+                छात्र अपनी पसंद का करियर बनाने के प्रति आत्मविश्वासी हैं और अपने
+                लिए एक सहायता प्रणाली की पहचान कर सकते हैं
+              </p>
+            </div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="w-[69%] h-full bg-primary"></div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12 text-center">
+          <div
+            class="inline-flex items-center justify-center bg-white px-8 py-6 rounded-xl shadow-lg border-2 border-primary/10"
+          >
+            <div class="text-4xl font-bold text-primary mr-4">600+</div>
+            <p class="text-gray-700 text-left">
+              11वीं और 12वीं कक्षा के छात्रों तक करियर शाला कार्यक्रम के माध्यम
+              से पहुंच
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Impact Statistics -->
+    <section
+      class="py-20 bg-gradient-to-br from-white via-primary/5 to-secondary/5 relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-[url('https://readdy.ai/api/search-image?query=abstract%20geometric%20pattern%20with%20soft%20gradient%20colors%2C%20modern%20minimalist%20design%2C%20subtle%20texture%2C%20professional%20clean%20background&width=1920&height=1080&seq=10&orientation=landscape')] opacity-5"
+      ></div>
+      <div class="container mx-auto px-4 relative">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6"
+            data-translate="impact_title"
+          >
+            हमारा प्रभाव
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-translate="impact_subtitle">
+            अब तक हमने कितने छात्रों की मदद की है
+          </p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div
+            class="bg-white/80 backdrop-blur p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 text-center border border-primary/10 card-hover-effect"
+          >
+            <div class="text-4xl font-bold text-primary mb-2">50,000+</div>
+            <p class="text-gray-600">छात्र लाभान्वित</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md text-center card-hover-effect">
+            <div class="text-4xl font-bold text-primary mb-2">8+</div>
+            <p class="text-gray-600">राज्य कवर किए गए</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md text-center card-hover-effect">
+            <div class="text-4xl font-bold text-primary mb-2">200+</div>
+            <p class="text-gray-600">साझेदार संस्थान</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md text-center card-hover-effect">
+            <div class="text-4xl font-bold text-primary mb-2">1,000+</div>
+            <p class="text-gray-600">करियर मार्गदर्शक</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Success Stories -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4" data-translate="success_stories_title">
+            सफलता की कहानियां
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-translate="success_stories_subtitle">
+            हमारे छात्रों की प्रेरणादायक यात्राएँ
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all card-hover-effect"
+          >
+            <div class="mb-4">
+              <img
+                src="https://readdy.ai/api/search-image?query=Indian%20female%20student%20portrait%2C%20professional%20headshot%2C%20confident%20expression%2C%20neutral%20background%2C%20professional%20lighting%2C%20high%20quality&width=300&height=300&seq=3&orientation=squarish"
+                alt="अंजलि शर्मा"
+                class="w-20 h-20 rounded-full mx-auto object-cover object-top"
+              />
+            </div>
+            <h3 class="text-xl font-semibold text-center mb-2">अंजलि शर्मा</h3>
+            <p class="text-gray-600 text-center mb-4">दिल्ली</p>
+            <p class="text-gray-700 text-center">
+              "करियर शाला ने मुझे मेरी रुचि के अनुसार इंजीनियरिंग के क्षेत्र में
+              अपना मार्ग चुनने में मदद की। आज मैं एक सफल सॉफ्टवेयर इंजीनियर
+              हूं।"
+            </p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all card-hover-effect"
+          >
+            <div class="mb-4">
+              <img
+                src="https://readdy.ai/api/search-image?query=Indian%20male%20student%20portrait%2C%20professional%20headshot%2C%20confident%20expression%2C%20neutral%20background%2C%20professional%20lighting%2C%20high%20quality&width=300&height=300&seq=4&orientation=squarish"
+                alt="राहुल वर्मा"
+                class="w-20 h-20 rounded-full mx-auto object-cover object-top"
+              />
+            </div>
+            <h3 class="text-xl font-semibold text-center mb-2">राहुल वर्मा</h3>
+            <p class="text-gray-600 text-center mb-4">मुंबई</p>
+            <p class="text-gray-700 text-center">
+              "मुझे अपने करियर के बारे में बहुत भ्रम था। करियर शाला के
+              मार्गदर्शन से मैंने अपनी रुचि के अनुसार डिजाइन के क्षेत्र में
+              प्रवेश किया।"
+            </p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all card-hover-effect"
+          >
+            <div class="mb-4">
+              <img
+                src="https://readdy.ai/api/search-image?query=Indian%20female%20student%20portrait%2C%20professional%20headshot%2C%20confident%20expression%2C%20neutral%20background%2C%20professional%20lighting%2C%20high%20quality&width=300&height=300&seq=5&orientation=squarish"
+                alt="प्रिया पटेल"
+                class="w-20 h-20 rounded-full mx-auto object-cover object-top"
+              />
+            </div>
+            <h3 class="text-xl font-semibold text-center mb-2">प्रिया पटेल</h3>
+            <p class="text-gray-600 text-center mb-4">बैंगलोर</p>
+            <p class="text-gray-700 text-center">
+              "मेरे परिवार में कोई भी उच्च शिक्षा नहीं प्राप्त कर पाया था। करियर
+              शाला के मार्गदर्शन से मैंने न केवल कॉलेज में प्रवेश लिया बल्कि
+              छात्रवृत्ति भी प्राप्त की।"
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Other Initiatives -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4" data-translate="other_initiatives_title">
+            अलोहोमोरा एजुकेशन फाउंडेशन की अन्य पहल
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-translate="other_initiatives_subtitle">
+            छात्रों के समग्र विकास के लिए हमारी विभिन्न पहल
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all card-hover-effect"
+          >
+            <div class="flex items-start mb-6">
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full shrink-0"
+              >
+                <i class="ri-graduation-cap-line ri-xl text-primary"></i>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">
+                  स्कूल के बाद सहायता कार्यक्रम
+                </h3>
+                <p class="text-gray-700">
+                  12वीं कक्षा के बाद छात्रों के लिए सहायता कार्यक्रम। युवाओं को
+                  एक-दूसरे से जुड़ने में मदद करता है। विभिन्न कौशल संस्थानों,
+                  व्यावसायिक पाठ्यक्रमों और छात्रवृत्ति से जुड़ने का अवसर भी
+                  प्रदान करता है।
+                </p>
+                <div class="mt-6 flex flex-wrap gap-3">
+                  <span
+                    class="px-4 py-2 bg-primary/5 text-primary rounded-full text-sm"
+                    >कौशल विकास</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-primary/5 text-primary rounded-full text-sm"
+                    >छात्रवृत्ति</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-primary/5 text-primary rounded-full text-sm"
+                    >नेटवर्किंग</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all card-hover-effect"
+          >
+            <div class="flex items-start mb-6">
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full shrink-0"
+              >
+                <i class="ri-government-line ri-xl text-primary"></i>
+              </div>
+              <div class="ml-4">
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">
+                  दिल्ली सरकार के कार्यक्रम
+                </h3>
+                <p class="text-gray-700">
+                  दिल्ली सरकार ने अलोहोमोरा के साथ मिलकर 9वीं-12वीं कक्षा के
+                  छात्रों के लिए देश के मेंटर (DKM) और एंटरप्रेन्योरशिप माइंडसेट
+                  करिकुलम (EMC) शुरू किया। DKM छात्रों को सफल युवाओं (मेंटर्स)
+                  से जोड़ता है।
+                </p>
+                <div class="mt-6 flex flex-wrap gap-3">
+                  <span
+                    class="px-4 py-2 bg-primary/5 text-primary rounded-full text-sm"
+                    >मेंटरशिप</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-primary/5 text-primary rounded-full text-sm"
+                    >उद्यमिता</span
+                  >
+                  <span
+                    class="px-4 py-2 bg-primary/5 text-primary rounded-full text-sm"
+                    >सरकारी सहयोग</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12 flex justify-center">
+          <button
+            class="bg-primary text-white px-8 py-3 rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap"
+          >
+            सभी पहल देखें
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- Call to Action -->
+    <section class="py-16 bg-primary bg-opacity-10">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6" data-translate="cta_title">
+          अपनी करियर यात्रा आज ही शुरू करें
+        </h2>
+        <p class="text-lg text-gray-700 mb-8 max-w-2xl mx-auto" data-translate="cta_subtitle">
+          करियर शाला के साथ अपने सपनों को साकार करने का पहला कदम उठाएं
+        </p>
+        <button
+          class="bg-primary text-white px-10 py-4 rounded-button font-medium hover:bg-opacity-90 transition-all text-lg whitespace-nowrap"
+          data-translate="register_now"
+        >
+          अभी रजिस्टर करें
+        </button>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-['Pacifico'] text-primary mb-4">logo</h3>
+            <p class="text-gray-400 mb-4" data-translate="footer_desc">
+              अलोहोमोरा फाउंडेशन भारत के युवाओं को उनके करियर के लक्ष्यों को प्राप्त करने में मदद करता है।
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors"
+              >
+                <i class="ri-twitter-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors"
+              >
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors"
+              >
+                <i class="ri-linkedin-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4" data-translate="quick_links">त्वरित लिंक</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-translate="home">होम</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-translate="sectors">सेक्टर</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-translate="about">हमारे बारे में</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-translate="contact">संपर्क</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-translate="privacy_policy">गोपनीयता नीति</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4" data-translate="contact_us">संपर्क</h4>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="ml-2 text-gray-400"
+                  >123, सेक्टर 4, नई दिल्ली - 110001</span
+                >
+              </li>
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-mail-line"></i>
+                </div>
+                <span class="ml-2 text-gray-400">info@alohomora.org</span>
+              </li>
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-primary mt-1"
+                >
+                  <i class="ri-phone-line"></i>
+                </div>
+                <span class="ml-2 text-gray-400">+91 98765 43210</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4" data-translate="newsletter_title">न्यूज़लेटर</h4>
+            <p class="text-gray-400 mb-4" data-translate="newsletter_subtitle">
+              नवीनतम अपडेट और करियर संबंधित जानकारी के लिए सब्सक्राइब करें
+            </p>
+            <div class="flex">
+              <input type="email" data-translate="email_placeholder" placeholder="आपका ईमेल" class="px-4 py-2 rounded-l-button bg-gray-800 text-white border-none focus:outline-none focus:ring-2 focus:ring-primary" />
+              <button class="bg-primary text-white px-4 py-2 rounded-r-button hover:bg-opacity-90 transition-all whitespace-nowrap" data-translate="subscribe">
+                सब्सक्राइब
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm mb-4 md:mb-0" data-translate="copyright">
+            © 2025 अलोहोमोरा फाउंडेशन। सर्वाधिकार सुरक्षित।
+          </p>
+          <div class="flex space-x-4">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-visa-fill ri-lg text-gray-400"></i>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-mastercard-fill ri-lg text-gray-400"></i>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-paypal-fill ri-lg text-gray-400"></i>
+            </div>
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-amazon-pay-fill ri-lg text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const translations = {
+        hi: {
+          // Navigation
+          home: "होम",
+          sectors: "सेक्टर",
+          about: "हमारे बारे में",
+          contact: "संपर्क",
+          privacy_policy: "गोपनीयता नीति",
+          
+          // Hero Section
+          hero_title: "अपने करियर की यात्रा शुरू करें",
+          hero_subtitle: "भारत के सरकारी स्कूलों में युवाओं के लिए संरचित करियर अन्वेषण और सूचित विकल्प को सक्षम करना",
+          get_started: "शुरू करें",
+          
+          // What We Do Section
+          what_we_do_title: "हम क्या करते हैं",
+          what_we_do_desc: "भारत के सरकारी स्कूलों में युवाओं के लिए संरचित करियर अन्वेषण और सूचित विकल्प को सक्षम करना!",
+          collaborative_programs: "सहयोगात्मक बड़े पैमाने के कार्यक्रम",
+          delhi_govt: "दिल्ली सरकार के साथ साझेदारी",
+          haryana_program: "हरियाणा में जिला-व्यापी करियर सहायता कार्यक्रम",
+          
+          // State Selection
+          choose_state: "अपना राज्य चुनें",
+          state_subtitle: "कक्षा 9-12 के विद्यार्थियों के लिए विशेष करियर मार्गदर्शन कार्यक्रम",
+          available_states: "उपलब्ध राज्य",
+          start_journey: "करियर यात्रा शुरू करें",
+          
+          // About Section
+          about_title: "अलोहोमोरा फाउंडेशन के बारे में",
+          about_desc: "अलोहोमोरा फाउंडेशन एक गैर-लाभकारी संगठन है जो भारत के युवाओं को उनके करियर के लक्ष्यों को प्राप्त करने में मदद करता है।",
+          students_helped: "हमने 50,000+ छात्रों को करियर मार्गदर्शन प्रदान किया है",
+          know_more: "और जानें",
+          
+          // Features Section
+          features_title: "करियर शाला की विशेषताएं",
+          features_subtitle: "हमारा कार्यक्रम छात्रों को उनके करियर के लक्ष्यों को प्राप्त करने के लिए आवश्यक ज्ञान और कौशल प्रदान करता है",
+          career_discovery: "करियर खोज",
+          career_discovery_desc: "छात्रों को विभिन्न करियर विकल्पों की खोज करने और उनकी रुचियों के अनुसार सही मार्ग चुनने में मदद करता है",
+          
+          // Why Choose Section
+          why_choose_title: "करियर शाला को क्यों चुनें?",
+          why_choose_subtitle: "हमारी विशेषताएं जो हमें अलग बनाती हैं",
+          
+          // Impact Section
+          impact_title: "हमारा प्रभाव",
+          impact_subtitle: "अब तक हमने कितने छात्रों की मदद की है",
+          
+          // Success Stories
+          success_stories_title: "सफलता की कहानियां",
+          success_stories_subtitle: "हमारे छात्रों की प्रेरणादायक यात्राएँ",
+          
+          // Other Initiatives
+          other_initiatives_title: "अलोहोमोरा एजुकेशन फाउंडेशन की अन्य पहल",
+          other_initiatives_subtitle: "छात्रों के समग्र विकास के लिए हमारी विभिन्न पहल",
+          
+          // CTA Section
+          cta_title: "अपनी करियर यात्रा आज ही शुरू करें",
+          cta_subtitle: "करियर शाला के साथ अपने सपनों को साकार करने का पहला कदम उठाएं",
+          register_now: "अभी रजिस्टर करें",
+          
+          // Footer
+          footer_desc: "अलोहोमोरा फाउंडेशन भारत के युवाओं को उनके करियर के लक्ष्यों को प्राप्त करने में मदद करता है।",
+          quick_links: "त्वरित लिंक",
+          contact_us: "संपर्क",
+          newsletter_title: "न्यूज़लेटर",
+          newsletter_subtitle: "नवीनतम अपडेट और करियर संबंधित जानकारी के लिए सब्सक्राइब करें",
+          email_placeholder: "आपका ईमेल",
+          subscribe: "सब्सक्राइब",
+          copyright: "© 2025 अलोहोमोरा फाउंडेशन। सर्वाधिकार सुरक्षित।"
+        },
+        en: {
+          // Navigation
+          home: "Home",
+          sectors: "Sectors",
+          about: "About Us",
+          contact: "Contact",
+          privacy_policy: "Privacy Policy",
+          
+          // Hero Section
+          hero_title: "Start Your Career Journey",
+          hero_subtitle: "Enabling structured career exploration and informed choices for youth in India's government schools",
+          get_started: "Get Started",
+          
+          // What We Do Section
+          what_we_do_title: "What We Do",
+          what_we_do_desc: "Enabling structured career exploration and informed choices for youth in India's government schools!",
+          collaborative_programs: "Collaborative Large-Scale Programs",
+          delhi_govt: "Partnership with Delhi Government",
+          haryana_program: "District-wide Career Support Program in Haryana",
+          
+          // State Selection
+          choose_state: "Choose Your State",
+          state_subtitle: "Special career guidance program for students in classes 9-12",
+          available_states: "Available States",
+          start_journey: "Start Career Journey",
+          
+          // About Section
+          about_title: "About Alohomora Foundation",
+          about_desc: "Alohomora Foundation is a non-profit organization that helps youth in India achieve their career goals.",
+          students_helped: "We have provided career guidance to 50,000+ students",
+          know_more: "Know More",
+          
+          // Features Section
+          features_title: "Features of Career Shala",
+          features_subtitle: "Our program provides students with the knowledge and skills needed to achieve their career goals",
+          career_discovery: "Career Discovery",
+          career_discovery_desc: "Helps students explore various career options and choose the right path according to their interests",
+          
+          // Why Choose Section
+          why_choose_title: "Why Choose Career Shala?",
+          why_choose_subtitle: "Our features that make us different",
+          
+          // Impact Section
+          impact_title: "Our Impact",
+          impact_subtitle: "How many students we have helped so far",
+          
+          // Success Stories
+          success_stories_title: "Success Stories",
+          success_stories_subtitle: "Inspiring journeys of our students",
+          
+          // Other Initiatives
+          other_initiatives_title: "Other Initiatives of Alohomora Education Foundation",
+          other_initiatives_subtitle: "Our various initiatives for holistic development of students",
+          
+          // CTA Section
+          cta_title: "Start Your Career Journey Today",
+          cta_subtitle: "Take the first step towards realizing your dreams with Career Shala",
+          register_now: "Register Now",
+          
+          // Footer
+          footer_desc: "Alohomora Foundation helps youth in India achieve their career goals.",
+          quick_links: "Quick Links",
+          contact_us: "Contact",
+          newsletter_title: "Newsletter",
+          newsletter_subtitle: "Subscribe for latest updates and career-related information",
+          email_placeholder: "Your Email",
+          subscribe: "Subscribe",
+          copyright: "© 2025 Alohomora Foundation. All rights reserved."
+        }
+      };
+
+      function updateLanguage(lang) {
+        // Update all elements with data-translate attribute
+        document.querySelectorAll('[data-translate]').forEach(element => {
+          const key = element.getAttribute('data-translate');
+          if (translations[lang][key]) {
+            if (element.tagName === 'INPUT' && element.type === 'email') {
+              element.placeholder = translations[lang][key];
+            } else {
+              element.textContent = translations[lang][key];
+            }
+          }
+        });
+        
+        // Update language toggle state
+        document.getElementById('language-toggle').checked = lang === 'en';
+        
+        // Store language preference
+        localStorage.setItem('preferred-language', lang);
+      }
+
+      // Initialize language based on stored preference or default to Hindi
+      document.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('preferred-language') || 'hi';
+        updateLanguage(savedLang);
+      });
+
+      // Language toggle handler
+      document.getElementById('language-toggle').addEventListener('change', (e) => {
+        const newLang = e.target.checked ? 'en' : 'hi';
+        updateLanguage(newLang);
+      });
+    </script>
+  </body>
+</html>
